@@ -8,15 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class order extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id';
-    protected $casts = ['id' => 'string'];
-    protected $table = 'orders';
+    protected $primaryKey = 'NO_TRANSAKSI';
+    public $timestamps = false;
+    protected $casts = ['NO_TRANSAKSI' => 'string'];
+    protected $table = 'TRMUTASIHD';
     protected $fillable = [
-        'id','id_customer','id_address','name_address','name_customer' , 'shipping_address', 'total_pay','status', 'fee_out', 'remark','CREATED_AT', 'UPDATED_AT', 'UPDATED_BY'
+        'NO_TRANSAKSI','TANGGAL','JENIS_TRANSAKSI','KATEGORI'
     ];
 
-    public function orders_details()
-    {
-        return $this->hasMany('App\order_detail','id','id_order');
-    }
+    // public function orders_details()
+    // {
+    //     return $this->hasMany('App\order_detail','id','id_order');
+    // }
 }

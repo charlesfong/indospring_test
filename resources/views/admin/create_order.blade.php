@@ -6,93 +6,53 @@
     <input type="hidden" name='subtotal' id='subtotal'>
     <div class="card ">
       <div class="card-header card-header-primary">
-        <h4 class="card-title ">Create Orders</h4>
+        <h4 class="card-title ">Transaksi Barang</h4>
         {{-- <p class="card-category">Create Order</p> --}}
       </div>
       <div class="card-body first-step">
+
         <div class="row" style='margin-bottom:1.5%'>
-          <label class="col-sm-2 col-form-label" for="form_customer">Name</label>
+          <label class="col-sm-2 col-form-label" for="form_customer">No Transaksi</label>
           <div class="col-sm-4">
-            <select id='form_customer' name='form_customer' class="form-control" data-style="btn btn-primary btn-round" title="Single Select" onchange="load_anotherfield(this)">
-              <option disabled selected>-- SELECT CUSTOMER --</option>
-              @foreach ($customers as $customer)
-                  <option value='{{$customer->id}}' data-addr='{{$customer->address}}' data-phone1='{{$customer->phone1}}' data-phone2='{{$customer->phone2}}' data-phone3='{{$customer->phone3}}' data-email='{{$customer->email}}'>{{$customer->name}}</option>
-              @endforeach
-            </select>
+            <input id='form_no' name='form_no' class="form-control" data-style="btn btn-primary btn-round" title="Single Select">
+          </div>
+        </div>
+
+       
+
+        <div class="row" style='margin-bottom:1.5%'>
+          <label class="col-sm-2 col-md-2 col-lg-2 col-form-label">Tanggal</label>
+          <div class='col-sm-4 col-md-4 col-lg-4'>
+              <div class="row">
+                  <div class='col-sm-8 col-md-8 col-lg-8'>
+                      <input type='date' class='form-control date' data-date-format='DD MMMM YYYY' name='form_date' id='form_date' style='width:100%' value={{isset($date1)?$date1:date("d/m/Y")}}>
+                  </div>
+              </div>
           </div>
         </div>
 
         <div class="row" style='margin-bottom:1.5%'>
-          <label class="col-sm-2 col-form-label" for="form_customer">Company</label>
-          <div class="col-sm-4">
-            <select id='form_company' name='form_company' class="form-control" data-style="btn btn-primary btn-round" title="Single Select" onchange="load_anotherfield2(this)">
-              <option disabled selected>-- SELECT COMPANY --</option>
-            </select>
+          <label class="col-sm-2 col-md-2 col-lg-2 col-form-label">Jenis Transaksi</label>
+          <div class="col-sm-8 col-md-8 col-lg-8">
+              <select id='form_jenis' name='form_jenis' class="form-control" data-style="btn btn-primary btn-round" title="Single Select">
+                <option selected value='MASUK'>MASUK</option>
+                <option value='KELAR'>KELUAR</option>
+              </select>
           </div>
         </div>
 
         <div class="row" style='margin-bottom:1.5%'>
-          <label class="col-sm-2 col-form-label" >Address</label>
-          <div class="col-sm-10">
-            <div class="bmd-form-group">
-              {{-- <label for="form_address" class="bmd-label-floating">Address</label> --}}
-              <input type="text" class="form-control" id="form_address" name="form_address">
-            </div>
+          <label class="col-sm-2 col-md-2 col-lg-2 col-form-label">Kategori</label>
+          <div class="col-sm-8 col-md-8 col-lg-8">
+              <select id='form_kategori' name='form_kategori' class="form-control" data-style="btn btn-primary btn-round" title="Single Select">
+                <option selected value='SUBMAT'>SUBMAT</option>
+                <option value='RAWMAT'>RAWMAT</option>
+              </select>
           </div>
         </div>
-        {{-- <input type="text" id="demo3" />
-        <script type="text/javascript">
-          $("#demo3").maskMoney({ prefix: 'R$ ', allowNegative: true, thousands: '.', decimal: ',', affixesStay: false });
-        </script> --}}
-        {{-- <pre
-          class="brush: js">$("#demo3") --}}
 
-        <div class="row" style='margin-bottom:1.5%'>
-          <label class="col-sm-2 col-form-label">Phone</label>
-          <div class="col-sm-10">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="bmd-form-group">
-                  {{-- <label for="form_address" class="bmd-label-floating">Phone 1</label> --}}
-                  <input type="text" class="form-control" id="form_phone1" name="form_phone1" onkeydown="return numOnly(event);" maxlength="12">
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="bmd-form-group">
-                  {{-- <label for="form_address" class="bmd-label-floating">Phone 2</label> --}}
-                  <input type="text" class="form-control" id="form_phone2" name="form_phone2" onkeydown="return numOnly(event);" maxlength="12">
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="bmd-form-group">
-                  {{-- <label for="form_address" class="bmd-label-floating">Phone 3</label> --}}
-                  <input type="text" class="form-control" id="form_phone3" name="form_phone3" onkeydown="return numOnly(event);" maxlength="12">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row" style='margin-bottom:1.5%'>
-          <label class="col-sm-2 col-form-label" >Remark</label>
-          <div class="col-sm-10">
-            <div class="bmd-form-group">
-              {{-- <label for="form_address" class="bmd-label-floating">Address</label> --}}
-              <textarea type="text" name='form_remark' id='form_remark' class="form-control input_form" rows="2"></textarea>
-            </div>
-          </div>
-        </div>
         <div class="row" style='margin-bottom:1.5%'>
           <label class="col-sm-2 col-form-label" >Add Product</label>
-          <div class="col-sm-4">
-            <div class="bmd-form-group">
-              <select onchange="load_modalproduct(event)" class="form-control" id='id_supplier' data-style="btn btn-primary btn-round">
-                <option selected disabled>-- SELECT SUPPLIER--</option>
-                @foreach ($suppliers as $supplier)
-                    <option value='{{$supplier->id}}'>{{$supplier->name}}</option>
-                @endforeach
-              </select>
-            </div>
-          </div>
           <div class="col-sm-2">
             <button class="btn btn-light" onclick=load_modalproduct(event)>Open List Products</button>
           </div>
@@ -103,17 +63,6 @@
       </div>
 
       <div class="card-body second-step" style="display:none">
-        <div class="row" style='margin-bottom:1.5%'>
-          <label class="col-sm-2 col-form-label" for="form_customer">Name</label>
-          <div class="col-sm-4">
-            <select id='form_customer' name='form_customer' class="form-control" data-style="btn btn-primary btn-round" title="Single Select" onchange="load_anotherfield(this)">
-              <option disabled selected>-- SELECT CUSTOMER --</option>
-              @foreach ($customers as $customer)
-                  <option value='{{$customer->id}}' data-addr='{{$customer->address}}' data-phone1='{{$customer->phone1}}' data-phone2='{{$customer->phone2}}' data-phone3='{{$customer->phone3}}' data-email='{{$customer->email}}'>{{$customer->name}}</option>
-              @endforeach
-            </select>
-          </div>
-        </div>
         <div class="row" style='margin-bottom:1.5%'>
           <label class="col-sm-2 col-form-label" >Address</label>
           <div class="col-sm-10">
@@ -159,16 +108,6 @@
         </div>
         <div class="row" style='margin-bottom:1.5%'>
           <label class="col-sm-2 col-form-label" >Add Product</label>
-          <div class="col-sm-4">
-            <div class="bmd-form-group">
-              <select onchange="load_modalproduct(event)" class="form-control" id='id_supplier' data-style="btn btn-primary btn-round">
-                <option selected disabled>-- SELECT SUPPLIER--</option>
-                @foreach ($suppliers as $supplier)
-                    <option value='{{$supplier->id}}'>{{$supplier->name}}</option>
-                @endforeach
-              </select>
-            </div>
-          </div>
           <div class="col-sm-2">
             <button type="button" class="btn btn-light" onclick=load_modalproduct(event)>Open List Products</button>
         </div>
@@ -224,10 +163,7 @@
               Name
             </th>
             <th class='text-left'>
-              Price
-            </th>
-            <th class='text-left'>
-              Brand
+              Category
             </th>
             <th class='text-center'>
               Qty
@@ -302,9 +238,9 @@
       event.preventDefault();
 
       var valid = true;
-      if ($("#form_customer").val()=='' || $("#form_customer").val()==null) {
+      if ($("#form_no").val()=='' || $("#form_no").val()==null) {
         valid = false;
-        alert("Please Choose Customer!");
+        alert("Please Fill NO TRANSAKSI!");
         $("#form_customer").focus();
         return false;
       }
@@ -313,17 +249,17 @@
         alert("Please Add any product!");
         return false;
       }
-      if ($("#form_address").val()=='' || $("#form_address").val()==null) {
-        valid = false;
-        alert("Please fill up address field!");
-        $("#form_address").focus();
-        return false;
-      }
-      if ($("#subtotal").val()=='' || $("#subtotal").val()==null) {
-        valid = false;
-        alert("Error total value !");
-        return false;
-      }
+      // if ($("#form_address").val()=='' || $("#form_address").val()==null) {
+      //   valid = false;
+      //   alert("Please fill up address field!");
+      //   $("#form_address").focus();
+      //   return false;
+      // }
+      // if ($("#subtotal").val()=='' || $("#subtotal").val()==null) {
+      //   valid = false;
+      //   alert("Error total value !");
+      //   return false;
+      // }
 
       if (valid) {
         if (confirm('Save draft transaction ?')) {
@@ -336,16 +272,15 @@
             data: {
                 "_token"            : "{{ csrf_token() }}",
                 "cart"              : JSON.stringify(temp_cart),
-                "id_customer"       : $("#form_customer").val(),
-                "id_address"        : $("#form_company").val(),
-                "shipping_address"  : $("#form_address").val(),
-                "total_pay"         : $("#subtotal").val(),
-                "remark"            : $("#form_remark").val(),
+                "id_customer"       : $("#form_no").val(),
+                "date"              : $("#form_date").val(),
+                "jenis"             : $("#form_jenis").val(),
+                "kat"               : $("#form_kategori").val(),
             },
             success: function (data) {
                 console.log(data);
                 $("#modal_success").modal('show');
-                window.location.href = "{{ action('App\Http\Controllers\OrderController@list_orders') }}";
+                window.location.href = "{{ action('App\Http\Controllers\OrderController@create_order') }}";
             },
           });
         } else {
@@ -421,17 +356,17 @@
       var string_html = "";
       var sub_total   = 0;
       for (var z = 0; z < temp_cart.length; z++) {
-        sub_total += parseInt(temp_cart[z]['price'])*parseInt(temp_cart[z]['qty']);
-        var price   = "<td>Rp. "+addCommas(temp_cart[z]['price'])+"</td>";
+        // sub_total += parseInt(temp_cart[z]['price'])*parseInt(temp_cart[z]['qty']);
+        // var price   = "<td>Rp. "+addCommas(temp_cart[z]['price'])+"</td>";
         var btn_del = "<td class='text-center delete_btn'><button class='btn btn-danger btn-fab btn-fab-mini btn-round' onclick=del_from_cart('"+temp_cart[z]['id']+"')><i class='material-icons'>close</i></button></td>";
-        string_html += "<tr><td>"+temp_cart[z]['id']+"</td><td>"+temp_cart[z]['name']+"</td><td>"+temp_cart[z]['brand']+"</td>"+price+"<td>"+temp_cart[z]['qty']+"</td>"+btn_del+"</tr>";
+        string_html += "<tr><td>"+temp_cart[z]['id']+"</td><td>"+temp_cart[z]['name']+"</td><td>"+temp_cart[z]['cat']+"</td><td>"+temp_cart[z]['qty']+"</td>"+btn_del+"</tr>";
       }
-      if (temp_cart.length>0){
-        string_html += "<tr><td colspan='3' class='text-right'><b class='text-right'>SUB TOTAL</b></td><td colspan='2'>Rp. "+addCommas(sub_total)+"</td></tr>";
-      }
-      $("#subtotal").val(sub_total);
-      console.log("sub_total",sub_total);
-      console.log($("#subtotal").val());
+      // if (temp_cart.length>0){
+      //   string_html += "<tr><td colspan='3' class='text-right'><b class='text-right'>SUB TOTAL</b></td><td colspan='2'>Rp. "+addCommas(sub_total)+"</td></tr>";
+      // }
+      // $("#subtotal").val(sub_total);
+      // console.log("sub_total",sub_total);
+      // console.log($("#subtotal").val());
       
       $("#main_table_products").html(string_html);
     }
@@ -449,26 +384,24 @@
         // ADD TO TEMP CART
         obj['id']     = id;
         obj['name']   = $(sel).attr('data-name');
-        obj['price']  = $(sel).attr('data-price');
-        obj['dprice'] = $(sel).attr('data-dprice');
-        obj['brand']  = $(sel).attr('data-brand');
+        obj['cat']   = $(sel).attr('data-cat');
         obj['qty']    = parseInt($("#"+qty_id).val());
         var found = false;
-        for (var z = 0; z < temp_cart.length; z++) {
-          if (temp_cart[z]['id']==id){
-            // UPDATE TEMP ONLY 
-            if (temp_cart[z]['price']!= $(sel).attr('data-price')){
-              alert("Please remove product "+id+" from cart before changing price!");
-              valid =false;
-              return false;
-            }
-            found = true;
-            if (valid){
-              temp_cart[z]['qty']  = parseInt($("#"+qty_id).val())+parseInt(temp_cart[z]['qty']);
-            }
+        // for (var z = 0; z < temp_cart.length; z++) {
+        //   if (temp_cart[z]['id']==id){
+        //     // UPDATE TEMP ONLY 
+        //     if (temp_cart[z]['price']!= $(sel).attr('data-price')){
+        //       alert("Please remove product "+id+" from cart before changing price!");
+        //       valid =false;
+        //       return false;
+        //     }
+        //     found = true;
+        //     if (valid){
+        //       temp_cart[z]['qty']  = parseInt($("#"+qty_id).val())+parseInt(temp_cart[z]['qty']);
+        //     }
            
-          }
-        }
+        //   }
+        // }
         if (!found){
           // INSERT INTO TEMP
           temp_cart.push(obj);
@@ -488,8 +421,7 @@
           type: 'post',
           url: "{{route('show_product')}}",
           data: {
-              "_token": "{{ csrf_token() }}",
-              'id': id
+              "_token": "{{ csrf_token() }}"
           },
           success: function (data) {
               if (data.success){
@@ -502,12 +434,10 @@
                 var string_html = '';
                 for (var x = 0; x < data.data.length; x++) {
                   // data.data[x]['address'] = data.data[x]['address']==null?'-':data.data[x]['address'];
-                  var price = "<td>Rp. "+addCommas(data.data[x]['customer_price'])+"</td>";
-                  var id = data.data[x]['id'].replace(/\s/g,"%20");
-                  var price = "<td><input class='price_mask' id='price_"+id+"' type='text' value='Rp. "+addCommas(data.data[x]['customer_price'])+"' data-id='"+data.data[x]['id']+"' onkeydown='return numOnly(event)' onkeyup=format_currency(this,event)></td>";
-                  var name = data.data[x]['name'].replace(/\s/g,"%20");
-                  var btn_del = "<td class='text-center'><button id='btn_"+id+"' class='btn btn-success btn-fab btn-fab-mini btn-round' onclick=add_to_cart(this) data-id='"+data.data[x]['id']+"' data-name='"+data.data[x]['name']+"' data-price='"+data.data[x]['customer_price']+"' data-dprice='"+data.data[x]['supplier_price']+"' data-brand='"+data.data[x]['brand']+"'><i class='material-icons'>add</i></button></td>";
-                  string_html += "<tr><td>"+data.data[x]['id']+"</td><td style='width:40%'>"+data.data[x]['name']+"</td>"+price+"<td>"+data.data[x]['brand']+"</td><td style='width:10%'><input type='number' class='form-control' id='qty_"+data.data[x]['id']+"' name='qty_"+data.data[x]['id']+"' value=0 onkeydown='return numOnly(event);' min='0'></td>"+btn_del+"</tr>";
+                  var id = data.data[x]['KODE_BARANG'].replace(/\s/g,"%20");
+                  var name = data.data[x]['NAMA_BARANG'].replace(/\s/g,"%20");
+                  var btn_del = "<td class='text-center'><button id='btn_"+id+"' class='btn btn-success btn-fab btn-fab-mini btn-round' onclick=add_to_cart(this) data-id='"+data.data[x]['KODE_BARANG']+"' data-name='"+data.data[x]['NAMA_BARANG']+"' data-cat='"+data.data[x]['KATEGORI']+"'><i class='material-icons'>add</i></button></td>";
+                  string_html += "<tr><td>"+data.data[x]['KODE_BARANG']+"</td><td style='width:40%'>"+data.data[x]['NAMA_BARANG']+"</td><td style='width:10%'>"+data.data[x]['KATEGORI']+"</td><td style='width:10%'><input type='number' class='form-control' id='qty_"+data.data[x]['KODE_BARANG']+"' name='qty_"+data.data[x]['KODE_BARANG']+"' value=0 onkeydown='return numOnly(event);' min='0'></td>"+btn_del+"</tr>";
                 }
                 $("#main_table").html(string_html);
                 // initMaskMoney($(string_html).find('input'));

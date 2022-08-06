@@ -64,6 +64,7 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::get('/admin/list_orders',        [OrderController::class, 'list_orders'])->name('list_orders');
     Route::post('/admin/find_order_byId',   [OrderController::class, 'find_byId'])->name('find_order_byId');
     Route::post('/admin/delete_order',      [OrderController::class, 'destroy'])->name('delete_order');
+    Route::post('/admin/update_date',       [OrderController::class, 'update_date'])->name('update_date');
     Route::post('/admin/process_order',     [OrderController::class, 'process_order'])->name('process_order');
     Route::get('/admin/receipt/{id}',       [OrderController::class, 'show_receipt'])->name('show_receipt');
     Route::get('/admin/surat_jalan/{id}',   [OrderController::class, 'show_suratjalan'])->name('show_suratjalan');
@@ -72,6 +73,8 @@ Route::middleware(['auth','admin'])->group(function () {
 
     Route::get('/admin/create_po',          [OrderController::class, 'create_po']);
     Route::get('/admin/list_po',            [OrderController::class, 'list_po']);
+
+    Route::post('/admin/get_data_order',     [ReportController::class, 'get_data_order'])->name('get_data_order');
 });
 
 Route::get('/', function () {

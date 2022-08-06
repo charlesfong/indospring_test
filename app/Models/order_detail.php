@@ -8,15 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class order_detail extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id';
-    protected $casts = ['id' => 'string'];
-    protected $table = 'orders_details';
+    protected $primaryKey = 'NO_TRANSAKSI';
+    public $timestamps = false;
+    protected $casts = ['NO_TRANSAKSI' => 'string'];
+    protected $table = 'TRMUTASIDT';
     protected $fillable = [
-        'id_order', 'name_product', 'id_invoices_details', 'id_product','qty', 'price', 'd_price', 'profit','CREATED_AT', 'UPDATED_AT'
+        'NO_TRANSAKSI', 'KODE_BARANG', 'QTY'
     ];
 
-    public function orders_details()
-    {
-        return $this->belongsTo('App\order','id_order');
-    }
+    // public function orders_details()
+    // {
+    //     return $this->belongsTo('App\order','id_order');
+    // }
 }

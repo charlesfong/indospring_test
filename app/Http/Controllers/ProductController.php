@@ -156,6 +156,7 @@ class ProductController extends Controller
                 $product->supplier_price    = $request->supplier_price;
                 $product->description       = $request->description;
                 $product->brand             = $request->brand;
+                $product->unit              = $request->unit;
                 $product->id_category       = $request->id_category;
                 $product->id_supplier       = $request->id_supplier;
 
@@ -164,7 +165,10 @@ class ProductController extends Controller
 
                 $product->saveOrFail();
                 DB::commit();
-                $products = product::where('status',true)->orderBy('id')->get();
+                $products = product::leftJoin('suppliers as b', 'b.id', '=', 'products.id_supplier')
+                ->where('products.status',true)->orderBy('id')
+                ->selectRaw("products.*, b.name as supplier_name")->get();
+                
                 return response()->json(['success'=>true, 'data'=>$products],200);
             }
             
@@ -212,5 +216,10 @@ class ProductController extends Controller
     public function find_product_byId(Request $request) {
         $product = product::find($request->id);
         return json_encode($product);
+    }
+
+    public function find_unit_byId($id) {
+        $product = product::find($id);
+        return ($product);
     }
 }

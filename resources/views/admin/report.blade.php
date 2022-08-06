@@ -1,48 +1,141 @@
 @extends('template_admin.template')
 
 @section('Content')
-<div class="row">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-header card-header-primary">
-        <h4 class="card-title ">Report
-          {{-- <button type="button" class="btn btn-success" style="float:right" onclick="open_modal_create()">ADD NEW COURIER</button> --}}
-        </h4>
-      </div>
-      <div class="card-body">
 
-        <div class="row" style='margin-bottom:1.5%'>
-            <label class="col-sm-2 col-form-label" for="form_customer">Customer</label>
-            <div class="col-sm-4">
-                <select id='form_customer' name='form_customer' class="form-control" data-style="btn btn-primary btn-round" title="Single Select" onchange_gj="load_anotherfield(this)">
-                <option disabled selected>-- SELECT CUSTOMER --</option>
-                <option value='ALL'>ALL</option>
-                @foreach ($customers as $customer)
-                    <option value='{{$customer->id}}' data-addr='{{$customer->address}}' data-phone1='{{$customer->phone1}}' data-phone2='{{$customer->phone2}}' data-phone3='{{$customer->phone3}}' data-email='{{$customer->email}}'>{{$customer->name}}</option>
-                @endforeach
+<link rel="stylesheet" type="text/css" href="{{ asset('/multiselect/jquery.dropdown.css') }}" />
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+
+<script src="{{ asset('/multiselect/dist/js/BsMultiSelect.min.js') }}"></script>
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        <div class="card">
+        <div class="card-header card-header-primary">
+            <h4 class="card-title ">Report
+            {{-- <button type="button" class="btn btn-success" style="float:right" onclick="open_modal_create()">ADD NEW COURIER</button> --}}
+            </h4>
+        </div>
+        <div class="card-body">
+            <form id="form_report">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <div class="row" style='margin-bottom:1.5%'>
+                    <label class="col-sm-4 col-md-4 col-lg-4 col-form-label">Customer</label>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                        <select id='form_customer' name='form_customer' class="form-control" data-style="btn btn-primary btn-round" title="Single Select" onchange="load_anotherfield(this)">
+                        <option disabled selected>-- SELECT CUSTOMER --</option>
+                        <option selected value='ALL'>ALL</option>
+                        @foreach ($customers as $customer)
+                            <option value='{{$customer->id}}' data-addr='{{$customer->address}}' data-phone1='{{$customer->phone1}}' data-phone2='{{$customer->phone2}}' data-phone3='{{$customer->phone3}}' data-email='{{$customer->email}}'>{{$customer->name}}</option>
+                        @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row" style='margin-bottom:1.5%'>
+                    <label class="col-sm-4 col-md-4 col-lg-4 col-form-label">Date</label>
+                    <div class='col-sm-4 col-md-4 col-lg-4'>
+                        <div class="row">
+                            <div class='col-sm-8 col-md-8 col-lg-8'>
+                                <input type='date' class='form-control date' data-date-format='DD MMMM YYYY' name='date1' id='date1' style='width:100%' value={{isset($date1)?$date1:date("d/m/Y")}}>
+                            </div>
+                            <div class='col-sm-4 col-md-4 col-lg-4'>
+                                <span style=" font-size: 0.8em;">To</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-sm-4 col-md-4 col-lg-4'>
+                        <div class="row">
+                            <div class='col-sm-8 col-md-8 col-lg-8'>
+                                <input type='date' class='form-control date' data-date-format='DD MMMM YYYY' name='date2' id='date2' style='width:100%' value={{isset($date2)?$date2:date("d/m/Y")}}>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style='margin-bottom:1.5%'>
+                    <label class="col-sm-4 col-md-4 col-lg-4 col-form-label">Product Categories</label>
+                    <div class="col-sm-8 col-md-8 col-lg-8 multi_categories">
+                        <select id='form_categories' name='form_categories' class="form-control" style="display:block">
+                        <option disabled selected>-- SELECT CATEGORIES --</option>
+                        <option selected value='ALL'>ALL</option>
+                        @foreach ($categories as $category)
+                            <option value='{{$category->id}}'>{{$category->name}}</option>
+                        @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row" style='margin-bottom:1.5%'>
+                    <label class="col-sm-4 col-md-4 col-lg-4 col-form-label">Order Status</label>
+                    <div class="col-sm-8 col-md-8 col-lg-8 multi_categories">
+                        <select id='form_status' name='form_status' class="form-control" style="display:block">
+                            <option disabled selected>-- SELECT STATUS --</option>
+                            <option selected value='0'>Draft</option>
+                            <option selected value='1'>Processed</option>
+                            <option selected value='2'>Ready Deliver</option>
+                            <option selected value='3'>Delivering</option>
+                            <option selected value='4'>Done</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <input type='button' class="btn btn-light" style="float:right" onclick=go_search() value="Go">
+                    </div>
+                </div>
+            </form>
+            {{-- <select name="states" id="example" class="form-control"  multiple="multiple" style="display: none;">
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AZ">Arizona</option>
+                <option value="AR">Arkansas</option>
+                <option selected value="CA">California</option>
+            </select> --}}
+            {{-- <div class="row" id="company_section" style='margin-bottom:1.5%'>
+                <label class="col-sm-2 col-form-label" for="form_customer">Company</label>
+                <div class="col-sm-4">
+                <select id='form_company' name='form_company' class="form-control" data-style="btn btn-primary btn-round" title="Single Select">
+                    <option disabled selected>-- SELECT COMPANY --</option>
                 </select>
+                </div>
+            </div> --}}
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="margin-top:-2%;display:none;" id="row_bottom">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row" style="background-color: white;">
+                    <label style="color: #555;" class="col-sm-12 col-md-12 col-lg-12 col-form-label" id="title_"></label>
+                    <table id="table_result" class="table table-no-bordered table-hover dataTable dtr-inline table-bordered" cellspacing="0" width="100%" style="width: 100%;" role="grid">
+                        <thead class=" text-primary thead-light">
+                            <th>Name</th>
+                            <th>Total Price to Customer</th>
+                            <th>Total Price from Supplier</th>
+                            <th>Margin</th>
+                        </thead>
+                        <tbody id='main_table2'>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
-        {{-- <div class="row" id="company_section" style='margin-bottom:1.5%'>
-            <label class="col-sm-2 col-form-label" for="form_customer">Company</label>
-            <div class="col-sm-4">
-              <select id='form_company' name='form_company' class="form-control" data-style="btn btn-primary btn-round" title="Single Select">
-                <option disabled selected>-- SELECT COMPANY --</option>
-              </select>
-            </div>
-        </div> --}}
-  
-      </div>
     </div>
-  </div>
 </div>
 @endsection
 
 
 <script src="{{ asset('/template_admin/js/core/jquery.min.js') }}"></script>
-{{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
+<script src="{{ asset('/multiselect/jquery.dropdown.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/multiselect/mock.js') }}"></script>
 <script>
 
     $(document).ready( function () {
@@ -50,11 +143,83 @@
             // searching: false,bLengthChange: false,rowReorder: true,ordering: false
             searching: true,bLengthChange: false,rowReorder: true
         });
-        $('#cust-phone1').mask('000-000-000-000');
-        $('#cust-phone2').mask('000-000-000-000');
-        $('#cust-phone3').mask('000-000-000-000');
-        // $("#form_customer").select2();
+        // $('.multi_categories').dropdown({
+        //     input: '<input type="text" maxLength="20" placeholder="Search">'
+        // });
+
+        
     });
+
+    // $(function(){
+    //     $("select").bsMultiSelect();
+    // });
+
+    $("#form_report").submit(function(e){
+        return false;
+    });
+    function go_search(){
+        
+        var date1   = '<?= (isset($_GET["date1"]) ? $_GET["date1"] : date('Y-m-d')) ?>';
+        var date2   = '<?= (isset($_GET["date2"]) ? $_GET["date2"] : date('Y-m-d')) ?>';
+        if ($("#date1").val()==""||$("#date1").val()==null){
+            $("#date1").val(date1);
+        }
+        if ($("#date2").val()==""||$("#date2").val()==null){
+            $("#date2").val(date2);
+        }
+        var tanggal1 = $("#date1").val();
+        var tanggal2 = $("#date2").val();
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "{{route('get_data_order')}}",
+            data: $("#form_report").serialize(),
+            success: function (data) {
+                var data = JSON.parse(data);
+                console.log(data);
+                $(".remove_later").remove();
+                $("#row_bottom").show();
+                var categories_selected = $("#form_categories option:selected").text();
+                var status_selected     = $("#form_status option:selected").text();
+               
+                $("#title_").html("Date : ("+tanggal1+" / "+tanggal2+"), Product Categories : "+categories_selected+", Status : "+status_selected);
+                var total_price = 0;
+                var total_dprice= 0;
+                var total_profit= 0;
+                for (var i = 0; i < data.length; i++) {
+                    var html = "<tr class='remove_later'>";
+                    html += "<td>"+data[i].name+"</td>";
+                    html += "<td>Rp. "+addCommas(data[i].total_price)+"</td>";
+                    html += "<td>Rp. "+addCommas(data[i].total_dprice)+"</td>";
+                    html += "<td>Rp. "+addCommas(data[i].total_profit)+"</td>";
+                    html += "</tr>";
+                    total_price  += data[i].total_price;
+                    total_dprice += data[i].total_dprice;
+                    total_profit += data[i].total_profit;
+                    $("#main_table2").append(html);
+                }
+                $("#main_table2").append("<tr class='remove_later'><td><b>Total</b></td><td><b>Rp. "+addCommas(total_price)+"</b></td><td><b>Rp. "+addCommas(total_dprice)+"</b></td><td><b>Rp. "+addCommas(total_profit)+"</b></td></tr>");
+                // $("#form_company").html("<option disabled selected>-- SELECT COMPANY --</option>");
+                // for (x=0;x<data.length;x++){
+                //     $("#form_company").append("<option value='"+data[x]['id']+"' data-addr='"+data[x]['address']+"'>"+data[x]['name']+"</option>");
+                // }
+            },
+        });
+    }
+
+    function addCommas(nStr) {
+        nStr += '';
+        var x = nStr.split('.');
+        var x1 = x[0];
+        var x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    }
 
     function load_anotherfield(sel){
         if ($('option:selected', sel).val()=='ALL'){
@@ -83,9 +248,9 @@
         }
     }
 
-    // function open_detail(id){
-    //     $("#modal_details").modal('show');
-    // }
+    function open_detail(id){
+        $("#modal_details").modal('show');
+    }
     
     function save_reset_field(){
         $('.input_form').each(function(){

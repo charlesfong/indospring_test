@@ -5,6 +5,7 @@
         background:rgb(221, 221, 221); */
         display:flex; 
         flex-direction:column; 
+        font-size: 1.3em;
     }
 
     .invoice {
@@ -19,6 +20,11 @@
         border-collapse: collapse;
     }
     
+    .borderless tr td {
+        border: none !important;
+        padding: 0px !important;
+    }
+
     .invoice h2 {
         margin-top: 0px;
         line-height: 0.8em;
@@ -26,6 +32,7 @@
 
     .invoice .small {
         font-weight: 300;
+        /* font-size: 5.8em !important; */
     }
 
     .invoice hr {
@@ -79,18 +86,24 @@
             /* width: 210mm;
             height: 148.5mm; */
             height: 100%;
-            font-size: 1.0em;
+            font-size: 1.3em;
             /* margin:0%; */
             color:#000000; 
             margin: 0 !important;
             padding: 0 !important;
         }
+        .special_size {
+            font-size: 0.8em;
+        }
+        .special_size2 {
+            font-size: 0.8em;
+        }
         p {
-            line-height:0.35cm;
+            line-height:0.7cm;
         }
         th div, td div {
-            margin-top:-8px;
-            padding-top:8px;
+            /* margin-top:-8px;
+            padding-top:8px; */
             page-break-inside:avoid;
         }
         table { page-break-inside:auto }
@@ -106,42 +119,42 @@
             <div class="grid invoice_">
                 <div class="grid-body">
                     <div class="invoice-title">
-                        <div class="row">
+                        <div class="row" style="height:100px">
                             @if ($modal_view ?? '')
                             
                             @else
-                            <div class="col-xs-6 col-md-6 col-lg-6">
-                                <img src="{{ asset('/img/logo_transparent.png') }}" class="img-fluid" width="200px" style='margin-left:50px;margin-top:0.1cm'>
+                            <div class="col-xs-5 col-md-5 col-lg-5">
+                                <img src="{{ asset('/img/logo_transparent.png') }}" class="img-fluid" width="180px" style='margin-left:20px;margin-top:0cm;position: absolute; top: -0.4cm'>
                             </div>
-                            <div class="col-xs-6 col-md-6 col-lg-6" style="float:right;margin-top:2%">
+                            <div class="col-xs-7 col-md-7 col-lg-7 special_size2" style="float:right;margin-top:0%">
                                 <div class="row">
-                                    <div class="col-xs-2 col-md-2 col-lg-2">
+                                    <div class="col-xs-2 col-md-2 col-lg-2" style="line-height:0.6cm">
                                         Address
                                     </div>
-                                    <div class="col-xs-1 col-md-1 col-lg-1">
+                                    <div class="col-xs-1 col-md-1 col-lg-1" style="line-height:0.6cm">
                                         :
                                     </div>
-                                    <div class="col-xs-9 col-md-9 col-lg-9">
+                                    <div class="col-xs-9 col-md-9 col-lg-9" style="line-height:0.6cm">
                                         Jl. Margomulyo Permai C3-3A, Surabaya
                                     </div>
 
-                                    <div class="col-xs-2 col-md-2 col-lg-2">
+                                    <div class="col-xs-2 col-md-2 col-lg-2" style="line-height:0.6cm">
                                         Phone
                                     </div>
-                                    <div class="col-xs-1 col-md-1 col-lg-1">
+                                    <div class="col-xs-1 col-md-1 col-lg-1" style="line-height:0.6cm">
                                         :
                                     </div>
-                                    <div class="col-xs-9 col-md-9 col-lg-9">
+                                    <div class="col-xs-9 col-md-9 col-lg-9" style="line-height:0.6cm">
                                         +62 811-330-9959
                                     </div>
 
-                                    <div class="col-xs-2 col-md-2 col-lg-2">
+                                    <div class="col-xs-2 col-md-2 col-lg-2" style="line-height:0.6cm">
                                         Email 
                                     </div>
-                                    <div class="col-xs-1 col-md-1 col-lg-1">
+                                    <div class="col-xs-1 col-md-1 col-lg-1" style="line-height:0.6cm">
                                         :
                                     </div>
-                                    <div class="col-xs-9 col-md-9 col-lg-9">
+                                    <div class="col-xs-9 col-md-9 col-lg-9" style="line-height:0.6cm">
                                         admin@andalanjayateknik.com
                                     </div>
 
@@ -223,19 +236,37 @@
                                     </div>
 
                                 @else
-                                    <div class="col-xs-3 col-md-3 col-lg-3">
+                                    <div class="col-xs-5 col-md-5 col-lg-5 special_size" style="line-height:0.6cm">
                                         <strong>Order ID</strong>
                                     </div>
-                                    <div class="col-xs-8 col-md-8 col-lg-8">
+                                    <div class="col-xs-7 col-md-7 col-lg-7 special_size" style="line-height:0.6cm">
                                         :&nbsp;<strong id="order_id">{{$order->id}}</strong>
                                     </div>
 
-                                    <div class="col-xs-3 col-md-3 col-lg-3">
+                                    <div class="col-xs-5 col-md-5 col-lg-5 special_size" style="line-height:0.6cm">
                                         Date
                                     </div>
-                                    <div class="col-xs-8 col-md-8 col-lg-8">
+                                    <div class="col-xs-7 col-md-7 col-lg-7 special_size" style="line-height:0.6cm">
                                         :&nbsp;<span id="date_id">{{$order->CREATED_AT}}</span>
                                     </div>
+
+                                    @if ($shipment!=null)
+                                    <div class="col-xs-5 col-md-5 col-lg-5 text-left special_size" style="line-height:0.6cm">
+                                        Shipping Method
+                                    </div>
+                                    <div class="col-xs-7 col-md-7 col-lg-7 text-left special_size" style="line-height:0.6cm">
+                                        :<span id="cust_name">
+                                            @php
+                                                if ($shipment->id_courier=='self'){
+                                                    echo("Self Pick-up");
+                                                } else {
+                                                    echo($shipment->courier_name);
+                                                }
+                                            @endphp
+                                        </span>
+                                    </div>
+                                    
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -284,42 +315,40 @@
                                         </span>
                                     </div>
 
-                                    <div class="col-xs-12 col-md-12 col-lg-12 receipt">
+                                    <div class="col-xs-6 col-md-6 col-lg-6 receipt">
                                         <input type='hidden' id='order_id_hidden'>
                                         <button style="float:left" id="open_receipt" class="btn btn-gray" onclick="open_receipt()">Show Receipt</button>
                                     </div>
                                 @else 
-                                    <div class="col-xs-4 col-md-4 col-lg-4 text-left">
+                                    <div class="col-xs-4 col-md-4 col-lg-4 text-left special_size" style="line-height:0.6cm">
                                         Customer
                                     </div>
-                                    <div class="col-xs-8 col-md-8 col-lg-8 text-left">
+                                    <div class="col-xs-8 col-md-8 col-lg-8 text-left special_size" style="line-height:0.6cm">
                                         :&nbsp;<span id="cust_name">{{$customer->name}}</span>
                                     </div>
 
-                                    <div class="col-xs-4 col-md-4 col-lg-4 text-left">
-                                        Shipping Address
+                                    <div class="col-xs-4 col-md-4 col-lg-4 text-left special_size" style="line-height:0.6cm">
+                                        Address
                                     </div>
-                                    <div class="col-xs-8 col-md-8 col-lg-8 text-left">
-                                        :&nbsp;<span id="cust_name">{{$order->shipping_address}}</span>
+                                    <div class="col-xs-8 col-md-8 col-lg-8 text-left special_size" style="line-height:0.6cm">
+                                        @php
+                                            $id_address = \App\Http\Controllers\CustomerController::find_company_byId_first($order->id_address);
+                                        @endphp
+                                        :&nbsp;<span id="cust_name">{{$id_address->name." - ".$order->shipping_address}}</span>
                                     </div>
-
                                     @if ($shipment!=null)
-                                        <div class="col-xs-4 col-md-4 col-lg-4 text-left">
-                                            Shipping Method
-                                        </div>
-                                        <div class="col-xs-8 col-md-8 col-lg-8 text-left">
-                                            :&nbsp;<span id="cust_name">{{$shipment->courier_name}}</span>
-                                        </div>
-                                        
-                                        <div class="col-xs-4 col-md-3 col-lg-4 text-left">
-                                            Tracking No
-                                        </div>
-                                        <div class="col-xs-8 col-md-8 col-lg-8 text-left">
-                                            :&nbsp;<span id="cust_name">{{$shipment->tracking_no}}</span>
-                                        </div>
+                                    @if ($shipment->id_courier!='self')
+                                    <div class="col-xs-4 col-md-4 col-lg-4 text-left special_size" style="line-height:0.6cm">
+                                        Tracking No
+                                    </div>
+                                    <div class="col-xs-8 col-md-8 col-lg-8 text-left special_size" style="line-height:0.6cm">
+                                        :&nbsp;<span id="cust_name">{{$shipment->tracking_no}}</span>
+                                    </div>
                                     @endif
+
+                                @endif
+                                    
                                
-                                
                                 {{-- <div class="col-xs-4 col-md-4 col-lg-4 text-left">
                                     Created By
                                 </div>
@@ -337,7 +366,7 @@
                     <div class="row" style="margin-top:0.3cm">
                         <div class="col-md-12">
                             {{-- <h3>ORDER SUMMARY</h3> --}}
-                            <table class="table-manual-style" id="table_receipt" style="width:95%;margin-left:0.5cm;margin-top:0.3cm">
+                            <table class="table-manual-style" id="table_receipt" style="width:98%; @if ($modal_view ?? '')  @else font-size: 0.9em; @endif">
                                 <thead>
                                     <tr class="line">
                                         <td class="text-center" style="width: 1%"><strong>NO</strong></td>
@@ -370,15 +399,19 @@
                                     @endif
                                 </tbody>
                             </table>
-                            <span id='remark'>
-                                @if ($modal_view ?? '')
-                                    
-                                @else
-                                    @if ($order->remark!='' && $order->remark!=null && !empty($order->remark))
-                                        <div class='small' style='margin-bottom:5%;margin-top:2%;'>Remark, <br><b><p style="padding: 0px; margin:0px">@php  echo(nl2br(preg_replace('~\s*<br ?/?>\s*~',"<br />",$order->remark)));  @endphp</p></b></div>
-                                    @endif
-                                @endif
-                            </span>
+                            <div class='row'>
+                                <div class="col-md-6">
+                                    <span id='remark'>
+                                        @if ($modal_view ?? '')
+                                            
+                                        @else
+                                            @if ($order->remark!='' && $order->remark!=null && !empty($order->remark)) 
+                                                <div class='small special_size' style='margin-bottom:5%;margin-top:2%;font-size: 0.8em'>Remark, <br><b><p style="padding: 0px; margin:0px">@php  echo(nl2br(preg_replace('~\s*<br ?/?>\s*~',"<br />",$order->remark)));  @endphp</p></b></div>
+                                            @endif
+                                        @endif
+                                    </span>
+                                </div>
+                            </div>
                         </div>									
                     </div>
                     @if ($modal_view ?? '')
@@ -390,16 +423,45 @@
                         </div>
                     </div>
                     @else
-                    <div class="row" style="margin-top:1cm;margin-left:1cm"> 
-                        <div class="col-md-3 text-center identity" style='position: relative;'>
-                            <p style="line-height:0.7cm;border-top: 0.2px solid rgb(0, 0, 0);position: absolute; bottom: -2.5cm;margin-left: auto;margin-right: auto;left: 0;right: 2cm;">Received</p>
+                    <div class="row" style="margin-top:0.5cm;margin-left:1cm"> 
+                        <div class="col-md-5 col-lg-5 col-sm-5 text-center" style="outline: 1px solid black;">
+                            <table class='table borderless'>
+                                <tr class="borderless">
+                                    <td colspan="2">Tanda Terima Barang (paraf)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan='2'>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>tgl :</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan='2'>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>jam :</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan='2'>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>Nama :</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan='2'>&nbsp;</td>
+                                </tr>
+                            </table>
+                            {{-- <p style="line-height:0.7cm;border-top: 0.2px solid rgb(0, 0, 0);position: absolute; bottom: -2.5cm;margin-left: auto;margin-right: auto;left: 0;right: 2cm;">Received</p> --}}
                         </div>
-                        <div class="col-md-6 text-center identity">
+                        <div class="col-md-4 text-center identity">
                            
                         </div>
                         <div class="col-md-3 text-center identity" style='position: relative;'>
-                            <p style="position: absolute; bottom: -1.5cm;margin-left: auto;margin-right: auto;left: 0;right: 2cm;">{{$order->CREATED_BY}}</p>
-                            <p style="line-height:0.7cm;border-top: 0.2px solid rgb(0, 0, 0);position: absolute; bottom: -2.5cm;margin-left: auto;margin-right: auto;left: 0;right: 2cm;">Issued By</p>
+                            <p style="position: relative; bottom: -1.5cm;margin-left: auto;margin-right: auto;left: 0;right: 2cm;">{{$order->CREATED_BY}}</p>
+                            <p style="line-height:0.7cm;border-top: 0.2px solid rgb(0, 0, 0);position: relative; bottom: -1.5cm;margin-left: auto;margin-right: auto;left: 0;right: 2cm;">Issued By</p>
                         </div>
                     </div>
                     @endif

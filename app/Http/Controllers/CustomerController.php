@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\customer;
+use App\Models\customer_log;
 use App\Models\customer_address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,17 +84,42 @@ class CustomerController extends Controller
             // $customer = customer::where('id',$request->edit_id_customer)->first();
             $customer = customer::find($request->edit_id_customer);
             
-            // $customer->name         = 'test';
-            // $customer->address      = $request->edit_address;
-            // $customer->phone1       = str_replace('-','',$request->edit_phone1);
-            // $customer->phone2       = str_replace('-','',$request->edit_phone2);
+            $log_customer = new customer_log();
+            $log_customer->id_customer  = $customer->id;
+            $log_customer->name         = $customer->name;
+            $log_customer->address      = $customer->address;
+            $log_customer->phone1       = $customer->phone1;
+            $log_customer->phone2       = $customer->phone2;
+            $log_customer->phone3       = $customer->phone3;
+            $log_customer->email        = $customer->email;
+            $log_customer->UPDATED_AT   = $customer->UPDATED_AT;
+            $log_customer->UPDATED_BY   = $customer->UPDATED_BY;
+            $log_customer->save();
+            
+            $customer->name         = $request->edit_name;
+            $customer->address      = $request->edit_address;
+            $customer->phone1       = str_replace('-','',$request->edit_phone1);
+            $customer->phone2       = str_replace('-','',$request->edit_phone2);
             $customer->phone3       = str_replace('-','',$request->edit_phone3);
-            // $customer->email        = $request->edit_email;
-            // $customer->UPDATED_AT   = date('Y-m-d H:m:s');
-            // $customer->UPDATED_BY   = Auth::user()->name;
-            // var_dump($customer);
+            $customer->email        = $request->edit_email;
+            $customer->UPDATED_AT   = date('Y-m-d H:m:s');
+            $customer->UPDATED_BY   = Auth::user()->name;
+
+
             $customer->save();
             
+            $log_customer = new customer_log();
+            $log_customer->id_customer  = $customer->id;
+            $log_customer->name         = $customer->name;
+            $log_customer->address      = $customer->address;
+            $log_customer->phone1       = $customer->phone1;
+            $log_customer->phone2       = $customer->phone2;
+            $log_customer->phone3       = $customer->phone3;
+            $log_customer->email        = $customer->email;
+            $log_customer->UPDATED_AT   = $customer->UPDATED_AT;
+            $log_customer->UPDATED_BY   = $customer->UPDATED_BY;
+            $log_customer->save();
+
             // $order = order::find($request->id);
             // $order->status      = 1;
             // $order->UPDATED_BY  = Auth::user()->name;
@@ -101,8 +127,8 @@ class CustomerController extends Controller
             // $order->save();
 
             DB::commit();
-            // $customers = customer::orderBy('id')->get();
-            // return response()->json(['success'=>true, 'data'=>$customers],200);
+            $customers = customer::orderBy('id')->get();
+            return response()->json(['success'=>true, 'data'=>$customers],200);
         } catch(\Exception $e) {
             DB::rollback();
             return response()->json(
@@ -201,11 +227,17 @@ class CustomerController extends Controller
      */
     public function destroy(Request $request)
     {
-        DB::beginTransaction();
-        try{
-            $customer = customer_address::where('id_customer',$request->id)->first();
-            $customer->delete();
+        // DB::beginTransaction();
+        // try{
+            $customer = customer_address::where('id_customer',$request->id)->get();
+            if ($customer!=null) {
+                foreach ($customer as $key => $value) {
+                    $address = customer_address::find($value->id);
+                    $address->delete();         
+                }
+            }
 
+            
             $customer = customer::find($request->id);
             $customer->delete();
 
@@ -213,13 +245,13 @@ class CustomerController extends Controller
             $customers = customer::orderBy('id')->get();
 
             return response()->json(['success'=>true, 'data'=>$customers],200);
-        } catch(\Exception $e) {
-            DB::rollback();
-            return response()->json(
-                ['error'=>'Something went wrong, please try later.'],
-                $e->getCode()
-            );
-        }
+        // } catch(\Exception $e) {
+        //     DB::rollback();
+        //     return response()->json(
+        //         ['error'=>'Something went wrong, please try later.'],
+        //         $e->getMessage()
+        //     );
+        // }
     }
 
     public function find_byId($id)
@@ -233,5 +265,12 @@ class CustomerController extends Controller
         // var_dump($request->id);
         $customer = customer_address::where('id_customer',$request->id)->get();
         return json_encode($customer);
+    }
+    
+    public function find_company_byId_first($id)
+    {
+        // var_dump($request->id);
+        $customer = customer_address::where('id',$id)->first();
+        return ($customer);
     }
 }

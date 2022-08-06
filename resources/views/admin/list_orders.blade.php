@@ -132,7 +132,6 @@
 
 
 <script src="{{ asset('/template_admin/js/core/jquery.min.js') }}"></script>
-
 <script>
 
     $(document).ready(function () {
@@ -216,6 +215,34 @@
         open_delete($("#id_order").val(),$("#id_order").val());
     }
 
+    function update_date_order() {
+      var order_id = $("#order_id_hidden").val();
+      var date_val = $("#update_date_id").val();
+      if (confirm('Update date this order?')) {
+      // SET DONE THE ORDER
+      $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'post',
+            url: "{{route('update_date')}}",
+            data: {
+                "_token"        : "{{ csrf_token() }}",
+                'id'            : order_id,
+                'date_val'      : date_val,
+            },
+            success: function (data) {
+              // var data = $.parseJSON(data);
+              // console.log(data);
+              window.location.href = "{{ action('App\Http\Controllers\OrderController@list_orders') }}";
+            },
+        });
+        // END OF SET DONE THE ORDER
+      } else {
+        return false;
+      }
+    }
+
     var sub_total = 0;
     function open_detail(id) {
         $.ajax({
@@ -246,6 +273,8 @@
                 var html_shipping_fee = "";
                 var shipment = data.shipment;
                 $(".receipt").show();
+                $("#update_date_id").val((order.CREATED_AT).substring(0, 10));
+
                 for (var x = 0; x < detail.length; x++) {
                   var style_tr = "";
                   if (x==detail.length-1){

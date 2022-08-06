@@ -8,15 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     // use HasFactory;
-    protected $primaryKey = 'id';
-    protected $casts = ['id' => 'string','customer_price'=>'int','supplier_price'=>'int','weight'=>'int'];
+    protected $primaryKey = 'KODE_BARANG';
+    public $timestamps = false;
+    // protected $casts = ['id' => 'string','customer_price'=>'int','supplier_price'=>'int','weight'=>'int'];
     protected $keyType = 'string';
-    protected $table = 'products';
+    protected $table = 'MSBARANG';
     protected $fillable = [
-        'id','name', 'customer_price', 'supplier_price', 'description', 'brand', 'weight','id_category','id_supplier','status','CREATED_BY',
+        'KODE_BARANG','NAMA_BARANG', 'SATUAN', 'KATEGORI'
     ];
     
-    public function supplier() {
-        return $this->belongsTo('App\supplier','id_supplier');
-    }
+    // public function supplier() {
+    //     return $this->belongsTo('App\supplier','id_supplier');
+    // }
 }

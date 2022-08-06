@@ -1,12 +1,12 @@
-<link rel="icon" type="image/png" href="{{ asset('/img/logo2.png') }}">
+{{-- <link rel="icon" type="image/png" href="{{ asset('/img/logo2.png') }}"> --}}
 <title>
-    ANDALAN JAYA TEKNIK ONLINE SYSTEM
+    TEST INDOSPRING
 </title>
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
             <div class="flex flex-col items-center ">
-                <img src="{{ asset('/img/logo_transparent.png') }}" class="img-fluid" width="50%"/>
+                {{-- <img src="{{ asset('/img/logo_transparent.png') }}" class="img-fluid" width="50%"/> --}}
             </div>
 
             {{-- <x-jet-authentication-card-logo /> --}}

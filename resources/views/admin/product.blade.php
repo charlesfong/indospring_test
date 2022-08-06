@@ -237,6 +237,20 @@
                                 <div class="input-group-prepend">
                                   <div class="input-group-text"><i class="material-icons">create</i></div>
                                 </div>
+                                <select name='unit' id='product-unit' class="form-select form-control input_form" aria-label="Default select example">
+                                  <option selected disabled>-- SELECT UNIT--</option>
+                                  <option value='unit'>UNIT</option>
+                                  <option value='pc'>PC</option>
+                                  <option value='set'>SET</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="form-group bmd-form-group">
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <div class="input-group-text"><i class="material-icons">create</i></div>
+                                </div>
                                 <select name='id_category' id='product-cat' class="form-select form-control input_form" aria-label="Default select example">
                                   <option selected disabled>-- SELECT CATEGORY--</option>
                                   @foreach ($categories as $category)
@@ -456,7 +470,7 @@
                     var id = data.data[x]['id'].replace(/\s/g,"%20");
                     var name = data.data[x]['name'].replace(/\s/g,"%20");
                     var btn_del = "<td class='text-center'><button class='btn btn-primary btn-fab btn-fab-mini btn-round' onclick=open_detail('"+id+"')><i class='material-icons'>view_list</i></button><button class='btn btn-danger btn-fab btn-fab-mini btn-round' onclick=open_delete('"+id+"','"+name+"')><i class='material-icons'>delete</i></button></td>";
-                    string_html += "<tr><td>"+data.data[x]['id']+"</td><td>"+data.data[x]['name']+"</td>"+price+"<td>"+data.data[x]['brand']+"</td><td>"+data.data[x]['id_supplier']+"</td>"+btn_del+"</tr>";
+                    string_html += "<tr><td>"+data.data[x]['id']+"</td><td>"+data.data[x]['name']+"</td>"+price+"<td>"+data.data[x]['brand']+"</td><td>"+data.data[x]['supplier_name']+"</td>"+btn_del+"</tr>";
                   }
                   $("#main_table").html(string_html);
                   
@@ -497,7 +511,7 @@
                     var name = data.data[x]['name'].replace(/\s/g,"%20");
 
                     var btn_del = "<td class='text-center'><button class='btn btn-primary btn-fab btn-fab-mini btn-round' onclick=open_detail('"+id+"')><i class='material-icons'>view_list</i></button><button class='btn btn-danger btn-fab btn-fab-mini btn-round' onclick=open_delete('"+id+"','"+name+"')><i class='material-icons'>delete</i></button></td>";
-                    string_html += "<tr><td>"+data.data[x]['id']+"</td><td>"+data.data[x]['name']+"</td>"+price+"<td>"+data.data[x]['brand']+"</td><td>"+data.data[x]['id_supplier']+"</td>"+btn_del+"</tr>";
+                    string_html += "<tr><td>"+data.data[x]['id']+"</td><td>"+data.data[x]['name']+"</td>"+price+"<td>"+data.data[x]['brand']+"</td><td>"+data.data[x]['supplier_name']+"</td>"+btn_del+"</tr>";
                   }
                   $("#main_table").html(string_html);
                   
@@ -581,6 +595,7 @@
                 $("#product-desc").val(data.description);
                 $("#product-brand").val(data.brand);
                 $("#product-cat").val(data.id_category);
+                $("#product-unit").val(data.unit);
                 $("#product-supid").val(data.id_supplier);
 
                 $("#product-save").hide();
@@ -592,6 +607,7 @@
     }
 
     function open_modal_create() {
+      $("#form_modal_create").find("input,textarea,select").val('').end();
       $(".card-title-editable").html("Add New Product");
       $("#product-save").show();
       $("#product-update").hide();

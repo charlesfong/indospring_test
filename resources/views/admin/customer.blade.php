@@ -45,7 +45,7 @@
                     <td class="td_addr"   id="td_addr_{{$value->id}}">{{$value->address}}</td>
                     <td class="td_phone1" id="td_phone1_{{$value->id}}">{{$value->phone1}}</td>
                     <td class="td_email"  id="td_email_{{$value->id}}">{{$value->email}}</td>
-                    <td class='text-center'>
+                    <td class='text-center' style='width:15%'>
                         <button class="btn btn-warning btn-fab btn-fab-mini btn-round" onclick="open_edit('{{$value->id}}')">
                             <i class="material-icons">edit</i>
                         </button>
@@ -367,7 +367,7 @@
                   </form> 
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" onclick="save_data('Address')">Save</button>
+                  <button type="button" id='modal_save_button' class="btn btn-primary" onclick="save_data('Address')">Save</button>
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
           </div>
@@ -385,13 +385,13 @@
             // searching: false,bLengthChange: false,rowReorder: true,ordering: false
             searching: true,bLengthChange: false,rowReorder: true
         });
-        $('#cust-phone1').mask('000-000-000-000');
-        $('#cust-phone2').mask('000-000-000-000');
-        $('#cust-phone3').mask('000-000-000-000');
+        $('#cust-phone1').mask('000-000-000-000-000');
+        $('#cust-phone2').mask('000-000-000-000-000');
+        $('#cust-phone3').mask('000-000-000-000-000');
 
-        $('#edit-cust-phone1').mask('000-000-000-000');
-        $('#edit-cust-phone2').mask('000-000-000-000');
-        $('#edit-cust-phone3').mask('000-000-000-000');
+        $('#edit-cust-phone1').mask('000-000-000-000-000');
+        $('#edit-cust-phone2').mask('000-000-000-000-000');
+        $('#edit-cust-phone3').mask('000-000-000-000-000');
     });
     // function open_detail(id){
     //     $("#modal_details").modal('show');
@@ -408,7 +408,7 @@
     }
 
     function save_data(mode=null) {
-        
+        $("#modal_save_button").prop('disabled', true);
         var form = $("#form_modal_create");
         var url  = "{{route('save_customer')}}";
         if (mode=='Address'){
@@ -435,28 +435,32 @@
                     data.data[x]['address'] = data.data[x]['address']==null?'-':data.data[x]['address'];
                     data.data[x]['phone1'] = data.data[x]['phone1']==null?'-':data.data[x]['phone1'];
                     data.data[x]['email'] = data.data[x]['email']==null?'-':data.data[x]['email'];
-                    var btn = "<td class='text-center'><button class='btn btn-primary btn-fab btn-fab-mini btn-round' onclick=open_detail('"+data.data[x]['id']+"')><i class='material-icons'>view_list</i></button></td>";
-                    var btn_del = "<td class='text-center'><button class='btn btn-danger btn-fab btn-fab-mini btn-round' onclick=open_delete('"+data.data[x]['id']+"','"+data.data[x]['name']+"')><i class='material-icons'>delete</i></button></td>";
-                    string_html += "<tr><td>"+data.data[x]['name']+"</td><td>"+data.data[x]['address']+"</td><td>"+data.data[x]['phone1']+"</td><td>"+data.data[x]['email']+"</td>"+btn+btn_del+"</tr>";
+                    var btn = "<button class='btn btn-primary btn-fab btn-fab-mini btn-round' onclick=open_detail('"+data.data[x]['id']+"')><i class='material-icons'>view_list</i></button>";
+                    var btn_del = "<button class='btn btn-danger btn-fab btn-fab-mini btn-round' onclick=open_delete('"+data.data[x]['id']+"','"+data.data[x]['name']+"')><i class='material-icons'>delete</i></button>";
+                    var btn_edit = "<button class='btn btn-warning btn-fab btn-fab-mini btn-round' onclick=open_edit('"+data.data[x]['id']+"'')><i class='material-icons'>edit</i></button>";
+                    string_html += "<tr><td>"+data.data[x]['name']+"</td><td>"+data.data[x]['address']+"</td><td>"+data.data[x]['phone1']+"</td><td>"+data.data[x]['email']+"</td><td class='text-center'>"+btn_edit+btn+btn_del+"</td></tr>";
                   }
                   $("#main_table").html(string_html);
                   
                   $("#modal_create").modal('hide');
                   
                   $("#list_datas").DataTable({
-                      searching: false,bLengthChange: false,rowReorder: false,ordering: false
+                      searching: true,bLengthChange: false,rowReorder: true
                   });
                   save_reset_field();
                   $("#modal_success").modal('show');
+                  $("#modal_edit").modal('hide');
                   $("#modal_details").modal('hide');
                   $("#modal_create_address").modal('hide');
                 }
             },
         });
+        $("#modal_save_button").prop('disabled', false);
     }
 
     function open_delete(id,name) {
       $("#id_delete").val(id);
+      name = name.replace(/%20/g, " ");
       $("#modal_delete_info").html("("+name+")");
       $("#modal_delete").modal('show');
     }
@@ -483,14 +487,14 @@
                     data.data[x]['phone1'] = data.data[x]['phone1']==null?'-':data.data[x]['phone1'];
                     data.data[x]['email'] = data.data[x]['email']==null?'-':data.data[x]['email'];
                     var btn = "<td class='text-center'><button class='btn btn-primary btn-fab btn-fab-mini btn-round' onclick=open_detail('"+data.data[x]['id']+"')><i class='material-icons'>view_list</i></button></td>";
-                    var btn_del = "<td class='text-center'><button class='btn btn-danger btn-fab btn-fab-mini btn-round' onclick=open_delete('"+data.data[x]['id']+"','"+data.data[x]['name']+"')><i class='material-icons'>delete</i></button></td>";
+                    var btn_del = "<td class='text-center'><button class='btn btn-danger btn-fab btn-fab-mini btn-round' onclick=open_delete('"+data.data[x]['id']+"','"+data.data[x]['name'].replace(/\s/g,"%20")+"')><i class='material-icons'>delete</i></button></td>";
                     string_html += "<tr><td>"+data.data[x]['name']+"</td><td>"+data.data[x]['address']+"</td><td>"+data.data[x]['phone1']+"</td><td>"+data.data[x]['email']+"</td>"+btn+btn_del+"</tr>";
                   }
                   $("#main_table").html(string_html);
                   $("#modal_delete").modal('hide');
                   
                   $("#list_datas").DataTable({
-                      searching: true,bLengthChange: false,rowReorder: true,ordering: false
+                      searching: true,bLengthChange: false,rowReorder: true
                   });
                 }
             },

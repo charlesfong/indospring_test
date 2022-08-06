@@ -1,11 +1,23 @@
 <link href="{{ asset('/template_admin/css/material-dashboard.css?v=2.1.2') }}" rel="stylesheet" />
 <style>
+    
+    @if ($modal_view ?? '')
     body{
         /* margin-top:20px; */
         /* background:rgb(221, 221, 221); */
         display:flex; 
         flex-direction:column; 
+    }                   
+    @else
+    body{
+        /* margin-top:20px; */
+        /* background:rgb(221, 221, 221); */
+        display:flex; 
+        flex-direction:column; 
+        font-size: 1.3em;
     }
+    @endif 
+   
 
     footer{
         margin-top:auto; 
@@ -66,18 +78,26 @@
             /* width: 210mm;
             height: 148.5mm; */
             height: 100%;
-            font-size: 1.0em;
+            font-size: 1.3em;
             /* margin:0%; */
+            
             color:#000000; 
-            margin: 0 !important;
+            margin:  0 !important;
+            /* margin-top: -1.1% !important; */
             padding: 0 !important;
         }
+        .special_size {
+            font-size: 0.8em;
+        }
+        .special_size2 {
+            font-size: 0.8em;
+        }
         p {
-            line-height:0.cm;
+            line-height:0.7cm;
         }
         th div, td div {
-            margin-top:-8px;
-            padding-top:8px;
+            /* margin-top:-10%; */
+            /* padding-top:8px; */
             page-break-inside:avoid;
         }
         table { page-break-inside:auto }
@@ -93,42 +113,42 @@
             <div class="grid invoice_">
                 <div class="grid-body">
                     <div class="invoice-title">
-                        <div class="row">
+                        <div class="row" style="height:100px">
                             @if ($modal_view ?? '')
                             
                             @else
-                            <div class="col-xs-6 col-md-6 col-lg-6">
-                                <img src="{{ asset('/img/logo_transparent.png') }}" class="img-fluid" width="200px" style='margin-left:50px;margin-top:0.1cm'>
+                            <div class="col-xs-5 col-md-5 col-lg-5">
+                                <img src="{{ asset('/img/logo_transparent.png') }}" class="img-fluid" width="180px" style='margin-left:20px;margin-top:0cm;position: absolute; top: -0.4cm'>
                             </div>
-                            <div class="col-xs-6 col-md-6 col-lg-6" style="float:right;margin-top:2%">
+                            <div class="col-xs-7 col-md-7 col-lg-7 special_size2" style="float:right;margin-top:0%">
                                 <div class="row">
-                                    <div class="col-xs-2 col-md-2 col-lg-2">
+                                    <div class="col-xs-2 col-md-2 col-lg-2" style="line-height:0.6cm">
                                         Address
                                     </div>
-                                    <div class="col-xs-1 col-md-1 col-lg-1">
+                                    <div class="col-xs-1 col-md-1 col-lg-1" style="line-height:0.6cm">
                                         :
                                     </div>
-                                    <div class="col-xs-9 col-md-9 col-lg-9">
+                                    <div class="col-xs-9 col-md-9 col-lg-9" style="line-height:0.6cm">
                                         Jl. Margomulyo Permai C3-3A, Surabaya
                                     </div>
 
-                                    <div class="col-xs-2 col-md-2 col-lg-2">
+                                    <div class="col-xs-2 col-md-2 col-lg-2" style="line-height:0.6cm">
                                         Phone
                                     </div>
-                                    <div class="col-xs-1 col-md-1 col-lg-1">
+                                    <div class="col-xs-1 col-md-1 col-lg-1" style="line-height:0.6cm">
                                         :
                                     </div>
-                                    <div class="col-xs-9 col-md-9 col-lg-9">
+                                    <div class="col-xs-9 col-md-9 col-lg-9" style="line-height:0.6cm">
                                         +62 811-330-9959
                                     </div>
 
-                                    <div class="col-xs-2 col-md-2 col-lg-2">
+                                    <div class="col-xs-2 col-md-2 col-lg-2" style="line-height:0.6cm">
                                         Email 
                                     </div>
-                                    <div class="col-xs-1 col-md-1 col-lg-1">
+                                    <div class="col-xs-1 col-md-1 col-lg-1" style="line-height:0.6cm">
                                         :
                                     </div>
-                                    <div class="col-xs-9 col-md-9 col-lg-9">
+                                    <div class="col-xs-9 col-md-9 col-lg-9" style="line-height:0.6cm">
                                         admin@andalanjayateknik.com
                                     </div>
 
@@ -159,6 +179,20 @@
                         <div class="col-xs-6 col-md-6 col-lg-6">
                             <div class="row">
                                 @if ($modal_view ?? '')
+                                <div class="col-xs-3 col-md-3 col-lg-3 update_date_id">
+                                    Update Date
+                                </div>
+                                <div class="col-xs-1 col-md-1 col-lg-1 update_date_id">
+                                    :
+                                </div>
+                                <div class="col-xs-8 col-md-8 col-lg-8 row update_date_id">
+                                    <div class='col-xs-5 col-md-5 col-lg-5'>
+                                        <input type='date' class='form-control date' id="update_date_id" name='update_date_id' style='width:100%'>
+                                    </div>
+                                    <div class='col-xs-6 col-md-6 col-lg-6'>
+                                        <button style="float:left" id="update_date_button" class="btn btn-sm btn-gray" onclick="update_date_order()">Update date</button>
+                                    </div>
+                                </div>
                                 <div class="col-xs-3 col-md-3 col-lg-3">
                                     Draft Date
                                 </div>
@@ -210,19 +244,37 @@
                                 </div>
 
                                 @else
-                                    <div class="col-xs-3 col-md-3 col-lg-3">
+                                    <div class="col-xs-5 col-md-5 col-lg-5 special_size" style="line-height:0.6cm">
                                         <strong>Order ID</strong>
                                     </div>
-                                    <div class="col-xs-8 col-md-8 col-lg-8">
+                                    <div class="col-xs-7 col-md-7 col-lg-7 special_size" style="line-height:0.6cm">
                                         :&nbsp;<strong id="order_id">{{$order->id}}</strong>
                                     </div>
 
-                                    <div class="col-xs-3 col-md-3 col-lg-3">
+                                    <div class="col-xs-5 col-md-5 col-lg-5 special_size" style="line-height:0.6cm">
                                         Date
                                     </div>
-                                    <div class="col-xs-8 col-md-8 col-lg-8">
+                                    <div class="col-xs-7 col-md-7 col-lg-7 special_size" style="line-height:0.6cm">
                                         :&nbsp;<span id="date_id">{{$order->CREATED_AT}}</span>
                                     </div>
+
+                                    @if ($shipment!=null)
+                                    <div class="col-xs-5 col-md-5 col-lg-5 text-left special_size" style="line-height:0.6cm">
+                                        Shipping Method
+                                    </div>
+                                    <div class="col-xs-7 col-md-7 col-lg-7 text-left special_size" style="line-height:0.6cm">
+                                        :<span id="cust_name">
+                                            @php
+                                                if ($shipment->id_courier=='self'){
+                                                    echo("Self Pick-up");
+                                                } else {
+                                                    echo($shipment->courier_name);
+                                                }
+                                            @endphp
+                                        </span>
+                                    </div>
+                                
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -293,44 +345,34 @@
                                     <button style="float:left" id="open_receipt" class="btn btn-gray" onclick="open_surat_jalan()">Show Surat Jalan</button>
                                 </div>
                                 @else 
-                                    <div class="col-xs-4 col-md-4 col-lg-4 text-left">
+                                    <div class="col-xs-4 col-md-4 col-lg-4 text-left special_size" style="line-height:0.6cm">
                                         Customer
                                     </div>
-                                    <div class="col-xs-8 col-md-8 col-lg-8 text-left">
+                                    <div class="col-xs-8 col-md-8 col-lg-8 text-left special_size" style="line-height:0.6cm">
                                         :&nbsp;<span id="cust_name">{{$customer->name}}</span>
                                     </div>
 
-                                    <div class="col-xs-4 col-md-4 col-lg-4 text-left">
-                                        Shipping Address
+                                    <div class="col-xs-4 col-md-4 col-lg-4 text-left special_size" style="line-height:0.6cm">
+                                        Address
                                     </div>
-                                    <div class="col-xs-8 col-md-8 col-lg-8 text-left">
-                                        :&nbsp;<span id="cust_name">{{$order->shipping_address}}</span>
+                                    <div class="col-xs-8 col-md-8 col-lg-8 text-left special_size" style="line-height:0.6cm">
+                                        @php
+                                            $id_address = \App\Http\Controllers\CustomerController::find_company_byId_first($order->id_address);
+                                        @endphp
+                                        :&nbsp;<span id="cust_name">{{$id_address->name." - ".$order->shipping_address}}</span>
+                                        {{-- :&nbsp;<span id="cust_name">{{$order->shipping_address}}</span> --}}
                                     </div>
 
                                     @if ($shipment!=null)
-                                    <div class="col-xs-4 col-md-4 col-lg-4 text-left">
-                                        Shipping Method
-                                    </div>
-                                    <div class="col-xs-8 col-md-8 col-lg-8 text-left">
-                                        :<span id="cust_name">
-                                            @php
-                                                if ($shipment->id_courier=='self'){
-                                                    echo("Self Pick-up");
-                                                } else {
-                                                    echo($shipment->courier_name);
-                                                }
-                                            @endphp
-                                        </span>
-                                    </div>
-                                
                                     @if ($shipment->id_courier!='self')
-                                    <div class="col-xs-4 col-md-3 col-lg-4 text-left">
+                                    <div class="col-xs-4 col-md-4 col-lg-4 text-left special_size" style="line-height:0.6cm">
                                         Tracking No
                                     </div>
-                                    <div class="col-xs-8 col-md-8 col-lg-8 text-left">
+                                    <div class="col-xs-8 col-md-8 col-lg-8 text-left special_size" style="line-height:0.6cm">
                                         :&nbsp;<span id="cust_name">{{$shipment->tracking_no}}</span>
                                     </div>
                                     @endif
+                                    
                                 @endif
                                
                                 
@@ -351,12 +393,17 @@
                     <div class="" style="margin-top:0.3cm">
                         <div class="col-md-12">
                             {{-- <h3>ORDER SUMMARY</h3> --}}
-                            <table class=" @if ($modal_view ?? '') table table-striped @else table-manual-style @endif " id="table_receipt">
+                            <table class=" @if ($modal_view ?? '') table table-striped @else table-manual-style @endif " id="table_receipt" style="  @if ($modal_view ?? '')  @else font-size: 0.9em; @endif ">
                                 <thead>
                                     <tr class="line">
                                         <td class="text-left"   style="width: 10%"><strong>CODE</strong></td>
                                         <td class="text-left"   style="width: 25%"><strong>NAME</strong></td>
                                         <td class="text-center" style="width: 5%"><strong>QTY</strong></td>
+                                        @if ($modal_view ?? '')
+
+                                        @else
+                                        <td class="text-center" style="width: 5%"><strong>UOM</strong></td>
+                                        @endif
                                         <td class="text-center" style="width: 25%"><strong>UNIT PRICE</strong></td>
                                         @if ($modal_view ?? '')
                                         <td class="text-center no-invoice" style="width: 15%"><strong>INVOICE PRICE</strong></td>
@@ -383,7 +430,11 @@
                                                 <td>{{$item->id_product}}</td>
                                                 <td>{{$item->name_product}}</td>
                                                 <td class='text-center'>{{$item->qty}}</td>
-                                                <td class='text-center'>Rp. {{number_format($item->price,2)}}</td>
+                                                @php
+                                                    $unit = \App\Http\Controllers\ProductController::find_unit_byId($item->id_product);
+                                                @endphp
+                                                <td class='text-center'>{{strtoupper($unit['unit'])}}</td>
+                                                <td class='text-center'>Rp. {{number_format($item->price,0)}}</td>
                                                 <td class='text-right'>Rp. {{number_format($item->qty*$item->price,0)}}</td>
                                             </tr>
                                         @endforeach
@@ -395,8 +446,7 @@
                                         @endif
                                         
                                         <tr>
-                                            <td colspan='2'></td>
-                                            <td colspan='2' class='text-right'><strong>Shipping Fee</strong></td>
+                                            <td colspan='5' class='text-right'><strong>Shipping Fee</strong></td>
                                             <td class='text-right'>Rp. {{number_format($shipment->shipping_cost,0)}}</td>
                                         </tr>
                                         @endif
@@ -404,8 +454,7 @@
                                             $total += $sub_total;
                                         @endphp
                                         <tr>
-                                            <td colspan='2'></td>
-                                            <td colspan='2' class='text-right'><strong>Total</strong></td>
+                                            <td colspan='5' class='text-right'><strong>Total</strong></td>
                                             <td class='text-right'>Rp. {{number_format($total,0)}}</td>
                                         </tr>
                                     @endif
@@ -418,7 +467,7 @@
                                             
                                         @else
                                             @if ($order->remark!='' && $order->remark!=null && !empty($order->remark))
-                                                <div class='small' style='margin-top:0.1cm;'>Remark, <br><b><p style="padding: 0px; margin:0px">@php  echo(nl2br(preg_replace('~\s*<br ?/?>\s*~',"<br />",$order->remark)));  @endphp</p></b></div>
+                                                <div class='small' style='margin-top:0.1cm;font-size: 1.1em'>Remark, <br><b><p style="padding: 0px; margin:0px">@php  echo(nl2br(preg_replace('~\s*<br ?/?>\s*~',"<br />",$order->remark)));  @endphp</p></b></div>
                                             @endif
                                         @endif
                                     </span>
@@ -427,15 +476,15 @@
                                     @if ($modal_view ?? '')
 
                                     @else
-                                    <div class="row" style="margin-top:1cm"> 
-                                        <div class="col-md-3 text-center identity" style='position: relative;'>
+                                    <div class="row" style="margin-top:2cm"> 
+                                        <div class="col-md-4 text-center identity" style='position: relative;'>
                                             <p style="line-height:0.7cm;border-top: 0.2px solid rgb(0, 0, 0);position: absolute; bottom: -2.5cm;margin-left: auto;margin-right: auto;left: 0;right: 1cm;">Received</p>
                                         </div>
-                                        <div class="col-md-6 text-center identity">
+                                        <div class="col-md-4 text-center identity">
                                            
                                         </div>
-                                        <div class="col-md-3 text-center identity" style='position: relative;'>
-                                            <p style="position: absolute; bottom: -1.5cm;margin-left: auto;margin-right: auto;left: 0;right: 1cm;">{{$order->CREATED_BY}}</p>
+                                        <div class="col-md-4 text-center identity" style='position: relative;'>
+                                            <p style="position: absolute; bottom: -1.1cm;margin-left: auto;margin-right: auto;left: 0;right: 1cm;">{{$order->CREATED_BY}}</p>
                                             <p style="line-height:0.7cm;border-top: 0.2px solid rgb(0, 0, 0);position: absolute; bottom: -2.5cm;margin-left: auto;margin-right: auto;left: 0;right: 1cm;">Issued By</p>
                                         </div>
                                     </div>

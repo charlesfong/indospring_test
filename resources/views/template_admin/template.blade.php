@@ -2,14 +2,15 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8" />
-        <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('/template_admin/img/apple-icon.png') }}">
+        {{-- <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('/template_admin/img/apple-icon.png') }}"> --}}
         {{-- <link rel="icon" type="image/png" href="{{ asset('/img/favicon.png') }}"> --}}
-        <link rel="icon" type="image/png" href="{{ asset('/img/logo2.png') }}">
+        {{-- <link rel="icon" type="image/png" href="{{ asset('/img/logo2.png') }}"> --}}
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title>
-          ANDALAN JAYA TEKNIK ONLINE SYSTEM
+          TEST INDOSPRING
         </title>
         <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <!--     Fonts and icons     -->
         <link rel="stylesheet" type="text/css" href="{{ asset('/template_admin/css/material-icons.css') }}" />
         <link rel="stylesheet" href="{{ asset('/template_admin/css/font-awesome.min.css') }}">
@@ -206,36 +207,6 @@
                   </a>
                 </li>
                 <li class="nav-item ">
-                  <a class="nav-link collapsed" data-toggle="collapse" href="#contact_menu" aria-expanded="false">
-                    <i class="material-icons">person</i>
-                    <p>Contact
-                      <b class="caret"></b>
-                    </p>
-                  </a>
-                  <div class="collapse @if ($nav_tab=='customer'||$nav_tab=='supplier') @php echo('show') @endphp @endif" id="contact_menu" style="">
-                    <ul class="nav">
-                      <li class="nav-item @if ($nav_tab=='customer') @php echo('active') @endphp @endif">
-                        <a class="nav-link" href="{{ action('App\Http\Controllers\CustomerController@index') }}">
-                          <span class="sidebar-mini"> C </span>
-                          <span class="sidebar-normal">Customers </span>
-                        </a>
-                      </li>
-                      <li class="nav-item @if ($nav_tab=='supplier') @php echo('active') @endphp @endif">
-                        <a class="nav-link" href="{{ action('App\Http\Controllers\SupplierController@index') }}">
-                          <span class="sidebar-mini"> S </span>
-                          <span class="sidebar-normal">Suppliers </span>
-                        </a>
-                      </li>
-                      <li class="nav-item @if ($nav_tab=='courier') @php echo('active') @endphp @endif">
-                        <a class="nav-link" href="{{ action('App\Http\Controllers\CourierController@index') }}">
-                          <span class="sidebar-mini"> K </span>
-                          <span class="sidebar-normal">Courier </span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="nav-item ">
                   <a class="nav-link collapsed" data-toggle="collapse" href="#order_menu" aria-expanded="false">
                     <i class="material-icons">content_paste</i>
                     <p>Orders
@@ -243,20 +214,6 @@
                     </p>
                   </a>
                   <div class="collapse @if ($nav_tab=='create_order'||$nav_tab=='list_orders'||$nav_tab=='create_po'||$nav_tab=='list_po') @php echo('show') @endphp @endif" id="order_menu" style="">
-                    {{-- <ul class="nav">
-                      <li class="nav-item @if ($nav_tab=='create_po') @php echo('active') @endphp @endif"">
-                        <a class="nav-link" href="{{ action('App\Http\Controllers\OrderController@create_po') }}">
-                          <span class="sidebar-mini"> CPO </span>
-                          <span class="sidebar-normal">Create PO </span>
-                        </a>
-                      </li>
-                      <li class="nav-item @if ($nav_tab=='list_po') @php echo('active') @endphp @endif"">
-                        <a class="nav-link" href="{{ action('App\Http\Controllers\OrderController@list_po') }}">
-                          <span class="sidebar-mini"> LPO </span>
-                          <span class="sidebar-normal"> List PO </span>
-                        </a>
-                      </li>
-                    </ul> --}}
                     <ul class="nav">
                       <li class="nav-item @if ($nav_tab=='create_order') @php echo('active') @endphp @endif"">
                         <a class="nav-link" href="{{ action('App\Http\Controllers\OrderController@create_order') }}">
@@ -268,48 +225,6 @@
                         <a class="nav-link" href="{{ action('App\Http\Controllers\OrderController@list_orders') }}">
                           <span class="sidebar-mini"> LO </span>
                           <span class="sidebar-normal"> List Orders </span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="nav-item @if ($nav_tab=='list_products') @php echo('active') @endphp @endif">
-                  <a class="nav-link" href="{{ action('App\Http\Controllers\ProductController@index') }}">
-                    <i class="material-icons">library_books</i>
-                    <p>Products</p>
-                  </a>
-                </li>
-                {{-- <li class="nav-item @if ($nav_tab=='dashboard3') @php echo('active') @endphp @endif">
-                  <a class="nav-link" href="./icons.html">
-                    <i class="material-icons">fact_check</i>
-                    <p>Payments</p>
-                  </a>
-                </li> --}}
-                <li class="nav-item @if ($nav_tab=='report') @php echo('active') @endphp @endif">
-                  <a class="nav-link" href="{{ action('App\Http\Controllers\ReportController@index') }}">
-                    <i class="material-icons">note</i>
-                    <p>Reports</p>
-                  </a>
-                </li>
-                <li class="nav-item ">
-                  <a class="nav-link collapsed" data-toggle="collapse" href="#setting_menu" aria-expanded="false">
-                    <i class="material-icons">settings</i>
-                    <p>Settings
-                      <b class="caret"></b>
-                    </p>
-                  </a>
-                  <div class="collapse @if ($nav_tab=='company-info'||$nav_tab=='profile-info') @php echo('show') @endphp @endif" id="setting_menu" style="">
-                    <ul class="nav">
-                      <li class="nav-item @if ($nav_tab=='company-info') @php echo('active') @endphp @endif">
-                        <a class="nav-link" href="{{ route('company-info') }}">
-                          <span class="sidebar-mini"> CI </span>
-                          <span class="sidebar-normal">Company Info </span>
-                        </a>
-                      </li>
-                      <li class="nav-item @if ($nav_tab=='profile-info') @php echo('active') @endphp @endif">
-                        <a class="nav-link" href="{{ route('profile-info') }}">
-                          <span class="sidebar-mini"> PI </span>
-                          <span class="sidebar-normal">Profile Info</span>
                         </a>
                       </li>
                     </ul>
@@ -527,7 +442,26 @@
         <script src="{{ asset('/js/mask.js') }}"></script>
         <script>
 
-          
+          var interval = 3000;
+          var stopBlinking = false;
+
+          function blink(selector) {
+              if(stopBlinking)
+                  return false;
+            
+              $(selector).fadeOut('slow', function() {
+                  $(this).fadeIn('slow', function() {
+                      blink(this);
+                  });
+              });
+          }
+
+          // blink("#new_module");
+
+          setInterval(function(){ 
+              stopBlinking = !stopBlinking; 
+              blink("#new_module");
+          }, interval);
 
           function addCommas(nStr) {
               nStr += '';
